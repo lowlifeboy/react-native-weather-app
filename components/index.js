@@ -1,4 +1,4 @@
 export * from './Header';
-// export * from './ImageCard';
+// export * from './Weather';
 // export * from './Layout';
 // export * from './Details';
