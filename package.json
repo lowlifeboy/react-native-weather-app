@@ -8,12 +8,20 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "bluebird": "^3.5.5",
     "expo": "^34.0.1",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-web": "^0.11.4"
+    "react-native-web": "^0.11.4",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.3.0",
+    "remote-redux-devtools": "^0.5.16",
+    "remotedev-rn-debugger": "^0.8.4"
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0"
