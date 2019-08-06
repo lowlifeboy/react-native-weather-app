@@ -1,68 +1,45 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-// const city
+import { connect } from 'react-redux';
+import { weatherFetchData } from '../actions/weather';
 
-export default class Weather extends React.Component {
-  state = {
-    weatherData: {},
-    hasErrored: false,
-    isLoading: false
-  }
-
-  fetchData = (url) => {
-    this.setState({ isLoading: true });
-
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-
-        this.setState({ isLoading: false });
-
-        return response;
-      })
-      .then(res => res.json())
-      .then(weatherData => this.setState({ weatherData}))
-      .catch(() => this.setState({ hasErrored: true }));
-      
-  }
-
+class Weather extends React.Component {
   componentDidMount() {
-    this.fetchData(`https://api.openweathermap.org/data/2.5/weather?q=${this.props.city},${this.props.country_name}&APPID=d52724e6bdb1b53c4277e62ac1e71740`)
+    this.props.fetchData(`https://api.openweathermap.org/data/2.5/weather?q=${this.props.city},${this.props.country_name}&APPID=d52724e6bdb1b53c4277e62ac1e71740`)
   }
   
   render() {
-    const { city, country_name } = this.props;
-    const { weatherData } = this.state;
-    const { container, weatherDataBlock, location, weatherDescription, weatherImage, weatherDataProperties } = styles;
+    const { city, country_name, weather } = this.props;
+    const { container, weatherDataBlock, yourLocation, weatherDescription, weatherImage, weatherDataProperties } = styles;
 
     if (this.props.hasErrored) {
-      return <Text>Sorry! There was an error loading the items</Text>;
+      return <Text>Sorry! There was an error loading the weather data</Text>;
     }
 
     if (this.props.isLoading) {
       return <Text>Loading...</Text>;
     }
 
+    this.props.weather !== [] && console.log(this.props.weather);
+
     return (
       <View style={container}>
-        <Text style={location}>{city}, {country_name}</Text>
-        {typeof weatherData === 'object' && 
-          typeof weatherData.main === 'object' && 
-          <View style={weatherDataBlock}>
-            <View style={weatherDescription}>
-              <Image 
-                style={weatherImage}
-                source={{uri: `https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`}} alt='Weather image' 
-              />
-              <Text>{weatherData.weather[0].main}</Text>
-            </View>
-            <Text style={weatherDataProperties}>Temperature: {Math.round(weatherData.main.temp) - 273}°C</Text>
-            <Text style={weatherDataProperties}>Humidity: {weatherData.main.humidity}%</Text>
-          </View>
+        <Text style={yourLocation}>{city}, {country_name}</Text>
+        {
+          console.log(weather)
         }
+        {/* <View style={weatherDataBlock}>
+          <View style={weatherDescription}> */}
+            {/* <Image 
+              style={weatherImage}
+              source={{uri: `https://openweathermap.org/img/w/${this.props.weather.weather[0].icon}.png`}} alt='Weather image' 
+            />
+            <Text>{this.props.weather.weather[0].main}</Text>
+          </View>
+          <Text style={weatherDataProperties}>Temperature: {Math.round(this.props.weather.main.temp) - 273}°C</Text>
+          <Text style={weatherDataProperties}>Humidity: {this.props.weather.main.humidity}%</Text> */}
+        {/* </View> */}
       </View>
     );
   }
@@ -81,7 +58,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  location: {
+  yourLocation: {
     fontSize: 24,
     marginBottom: 30
   },
@@ -102,19 +79,19 @@ const styles = StyleSheet.create({
   }
 });
 
-// const mapStateToProps = (state) => ({
-//   weather: state.weather,
-//   hasErrored: state.weatherHasErrored,
-//   isLoading: state.weatherIsLoading,
-// });
+const mapStateToProps = (state) => ({
+  weather: state.weather,
+  hasErrored: state.weatherHasErrored,
+  isLoading: state.weatherIsLoading,
+});
 
-// const mapDispatchToProps = (dispatch) => ({
-//   fetchData: url => dispatch(weatherFetchData(url)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  fetchData: url => dispatch(weatherFetchData(url)),
+});
 
-// const WeatherListConnection = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Weather);
+const WeatherListConnection = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Weather)
 
-// export default WeatherListConnection;
+export default WeatherListConnection;
