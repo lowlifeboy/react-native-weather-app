@@ -30,7 +30,6 @@ export function locationFetchData(url) {
       .then(response => response.json())
       .then(locationData => {
         dispatch(locationFetchDataSuccess(locationData))
-        console.log(locationData);
       })
       .catch(() => dispatch(locationHasErrored(true)));
   };

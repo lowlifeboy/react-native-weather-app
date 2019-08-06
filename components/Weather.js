@@ -21,26 +21,23 @@ class Weather extends React.Component {
       return <Text>Loading...</Text>;
     }
 
-    this.props.weather !== [] && console.log(this.props.weather);
-
     return (
+      weather.weather ? (
       <View style={container}>
         <Text style={yourLocation}>{city}, {country_name}</Text>
-        {
-          console.log(weather)
-        }
-        {/* <View style={weatherDataBlock}>
-          <View style={weatherDescription}> */}
-            {/* <Image 
+        <View style={weatherDataBlock}>
+          <View style={weatherDescription}>
+            <Image 
               style={weatherImage}
               source={{uri: `https://openweathermap.org/img/w/${this.props.weather.weather[0].icon}.png`}} alt='Weather image' 
             />
             <Text>{this.props.weather.weather[0].main}</Text>
           </View>
           <Text style={weatherDataProperties}>Temperature: {Math.round(this.props.weather.main.temp) - 273}°C</Text>
-          <Text style={weatherDataProperties}>Humidity: {this.props.weather.main.humidity}%</Text> */}
-        {/* </View> */}
+          <Text style={weatherDataProperties}>Humidity: {this.props.weather.main.humidity}%</Text>
+        </View>
       </View>
+      ) : null
     );
   }
 }
